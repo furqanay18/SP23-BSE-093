@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+        }
+        
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-size: 18px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-control {
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .btn-custom {
+            background-color: #6c63ff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .btn-custom:hover {
+            background-color: #5a54d8;
+            color: white;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 600px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container my-5">
+    <h2 class="text-center">Checkout</h2>
+    <form id="checkoutForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter your name" required>
+            <small class="error" id="nameError"></small>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            <small class="error" id="emailError"></small>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" placeholder="Enter your address" required>
+            <small class="error" id="addressError"></small>
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" class="form-control" id="city" placeholder="Enter your city" required>
+            <small class="error" id="cityError"></small>
+        </div>
+        <button type="submit" class="btn btn-custom btn-block">Submit</button>
+    </form>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#checkoutForm').on('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
+            
+            // Clear previous error messages
+            $('.error').text('');
+            let isValid = true;
+
+            // Validate Name
+            const name = $('#name').val().trim();
+            if (name === '') {
+                $('#nameError').text('Name is required.');
+                isValid = false;
+            }
+
+            // Validate Email
+            const email = $('#email').val().trim();
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (email === '' || !emailPattern.test(email)) {
+                $('#emailError').text('Valid email is required.');
+                isValid = false;
+            }
+
+            // Validate Address
+            const address = $('#address').val().trim();
+            if (address === '') {
+                $('#addressError').text('Address is required.');
+                isValid = false;
+            }
+
+            // Validate City
+            const city = $('#city').val().trim();
+            if (city === '') {
+                $('#cityError').text('City is required.');
+                isValid = false;
+            }
+
+            // If the form is valid, submit it
+            if (isValid) {
+                alert('Form submitted successfully!');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
