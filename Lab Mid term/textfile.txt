@@ -1,0 +1,1 @@
+The Task Management Application is a user-friendly web-based platform designed to help individuals and teams organize their daily tasks efficiently. The primary goal of the application is to enhance productivity by allowing users to create, manage, and prioritize tasks in a seamless manner.
