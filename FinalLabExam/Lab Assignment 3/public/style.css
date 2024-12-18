@@ -1,0 +1,234 @@
+/* Basic Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-size: 16px; /* Base font size for the page */
+}
+
+/* Navigation Bar Styling */
+.navbar {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    justify-content: left;
+    margin: 0;
+    padding-left: 50px;
+}
+
+.nav-menu li {
+    margin: 0 15px; /* Adjust spacing between menu items */
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: grey;
+    font-size: 12px;
+    font-family: "Playfair Display", serif;
+    padding: 12px 10px;
+    transition: color 0.3s;
+}
+
+/* Hover Effect for Navigation Links */
+.nav-menu a:hover {
+    color: white;
+    background-color: burlywood;
+}
+
+/* Heading Styling */
+.heading-container {
+    text-align: center;
+    margin-top: 50px;
+    font-family: "Playfair Display", serif;
+}
+
+.heading {
+    font-size: 48px;
+    color: burlywood;
+    font-family: "Playfair Display", serif;
+}
+
+.heading .highlight {
+    color: black;
+    font-style: italic;
+    font-family: "Playfair Display", serif;
+}
+
+/* Content Container Styling */
+.content-container {
+    display: flex;
+    margin: 15px;
+    padding-left: 50px;
+}
+
+.left-compartment {
+    flex: 2;
+    background-color: white; /* Light background color */
+    padding: 20px;
+    margin-right: 10px;
+}
+
+.right-compartment {
+    flex: 1;
+    background-color:white; /* Light background color */
+    padding: 20px;
+}
+
+.H2LR {
+    color: rgb(198, 156, 109);
+    text-align: center;
+    font-size: 18px; /* Adjusted font size */
+    font-weight: 400;
+    font-family: "Playfair Display", serif;
+}
+
+.SourceGuide {
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+    font-family: "Quicksand", sans-serif;
+}
+
+.writtenby {
+    color: grey;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+}
+
+.com {
+    color: black;
+    text-align: center;
+    font-family: "Playfair Display", serif;
+}
+.para{
+    font-family: "Playfair Display", serif; 
+    color: rgb(49, 49, 49);
+    margin-block-end: 17px;
+    margin-bottom: 17px;
+    margin-right: 17px;
+    text-align: left;
+}
+
+.colored-line {
+    border: none;             /* Removes the default border */
+    height: 4px;              /* Height of the line */
+    background-color: burlywood; /* Line color */
+    width: 15%;               /* Line width */
+    margin: 4px; 
+    margin-left: 0%;       /* Center the line and add vertical spacing */
+    
+}
+.social-icons {
+    display: flex;
+    gap: 50px; /* Space between icons */
+}
+
+.social-icons a {
+    color: grey; /* Icon color */
+    font-size: 15px; /* Icon size */
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Smooth hover transition */
+}
+.iconName{
+    text-align: center;
+    margin-left: 15px;
+    font-size: 15px;
+    color: grey;
+    transition: color 0.3s;
+}
+.iconName:hover{
+    color: burlywood;
+
+}
+
+.social-icons a:hover {
+    color: burlywood; /* Color on hover */
+}
+/* Container for the search bar */
+.search-container {
+    display: flex;
+    justify-content: left;
+    margin: 20px;
+    border: 0.5px inset burlywood;
+    border-radius: 5px;
+    padding: 5px 8px;
+    width: 250px; /* Adjust width as needed */
+}
+
+/* Search input styling */
+.search-input {
+    border: none;
+    outline: none;
+    font-size: 16px;
+    flex-grow: 1;
+    padding: 5px 10px;
+    border-radius: 25px;
+}
+
+/* Button styling for the search icon */
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+/* Search icon size and color */
+.search-btn i {
+    font-size: 15px;
+    color: grey;
+}
+
+.search-btn:hover i {
+    color: burlywood; /* Change color on hover */
+}
+
+/* Placeholder styling */
+.search-input::placeholder {
+    font-size: 15px;
+    color: grey;
+    font-family: "Playfair Display", serif;
+}
+.recentposts{
+    display: flex;
+    gap: 40px;
+    transition: 0.3s;
+    justify-content: left;
+}
+.title{
+    font-size: 13px;
+    line-height: 20px;
+}
+.recentposts:hover{
+    opacity: 0.5;
+}
+.product-container {
+    display: flex;
+    align-items: center; /* Align image and description in the center vertically */
+    gap: 20px; /* Space between image and details */
+}
+.product-details {
+    flex: 1;
+    justify-content: left; /* Let the details take up remaining space */
+}
+.READMORE{
+    padding: 10px 20px;
+    background-color: burlywood;
+    border: none;
+    color: white;
+    font-family: "Quicksand", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+.READMORE-btn:hover {
+    background-color: #d2a679;
+}

@@ -4,7 +4,7 @@ let server=express();
 server.set("view engine","ejs");
 server.use(express.static("public"))
 server.get("/",(req,res)=>{
-    res.render("Homepage");
+    res.render("page");
 });
 
 server.get("/portfolio", (req,res) =>{

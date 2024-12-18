@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Living</title>
+    <style>
+        /* Body background */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('/background.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Container for left and right sections */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            height: 70%;
+            /*background-color: burlywood;*/
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease, opacity 0.5s ease; /* Add transition */
+        }
+
+        /* Left side - slogan */
+        .left {
+            width: 50%;
+            opacity: 0;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease; /* Transition for opacity */
+        }
+
+        .left h1 {
+            font-size: 2.5rem;
+
+            color: white;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .left p {
+            font-size: 1.2rem;
+            color: white;
+            text-align: center;
+        }
+
+        /* Right side - login form */
+        .right {
+            width: 50%;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(5, 5, 108);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 1; /* Initially visible */
+            transition: opacity 0.5s ease; /* Transition for opacity */
+        }
+
+        .login-form {
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .login-form h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            color: white;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .login-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Container for left and right sections -->
+    <div class="container">
+        <!-- Left side: Catchy slogan -->
+        <div class="left">
+            <h1>Designing Dreams, One Room at a Time</h1>
+            <p>Transform your space into something divine, where comfort and luxury intertwine!</p>
+        </div>
+
+        <!-- Right side: Login form -->
+        <div class="right">
+            <form method="POST" action="/login" class="login-form">
+                <h3>Login</h3>
+                <label>Email: <input type="text" name="email" id="email" required></label><br>
+                <label>Password: <input type="password" name="password" required></label><br>
+                <button type="submit">Login</button>
+                <% if (error_msg) { %>
+                    <div class="alert" role="alert">
+                        <%= error_msg %>
+                    </div>
+                <% } %>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Adding an event listener to the email input to trigger the transition
+        const emailInput = document.getElementById("email");
+
+        emailInput.addEventListener("focus", function () {
+            // Move the left side away and show the right side
+            document.querySelector(".container").style.transform = "translateY(-5%)";
+            document.querySelector(".left").style.opacity = "1";
+             // Fade out the left side
+            document.querySelector(".right").style.opacity = "1";  // Ensure the right side remains visible
+        });
+    </script>
+
+</body>
+
+</html>
+
