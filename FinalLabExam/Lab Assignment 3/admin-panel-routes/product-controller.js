@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 mongoose.set('strictPopulate', false);
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const Order = require('../models/order-model');
 
 
 
@@ -188,61 +189,80 @@ router.post("/shopnow/add-to-cart/:id",isAuthenticated, (req, res) => {
       });
   });
   
-  // POST: Handle Order Submission
+  /**
+ * POST route to handle order submission.
+ * Includes flash messages for empty cart or errors during order processing.
+ */
   router.post("/order", isAuthenticated, async (req, res) => {
+    // Extract address and phone number from the request body
     const { address, phoneNumber } = req.body;
+
+    // Retrieve the cart from cookies or initialize it as an empty array if not present
     const cart = req.cookies.cart || [];
-  
+
+    // Check if the cart is empty; if yes, redirect back to the cart page with an error message
     if (!cart.length) {
-      req.flash("error", "Your cart is empty.");
-      return res.redirect("/cart");
+        req.flash("error", "Your cart is empty.");
+        return res.redirect("/cart");
     }
-  
+
     try {
-      // Validate MongoDB ObjectIDs
-      const validCart = cart.filter(id => mongoose.isValidObjectId(id));
-      console.log("Valid Cart:", validCart);
-  
-      // Fetch products
-      const productsInCart = await Product.find({ _id: { $in: validCart } });
-      console.log("Products in Cart:", productsInCart);
-  
-      let totalAmount = 0;
-  
-      const orderProducts = productsInCart.map(product => {
-        const quantity = cart.filter(id => id.toString() === product._id.toString()).length;
-  
-  
-        totalAmount += product.price * quantity;
-  
-        return {
-          productId: product._id,
-          quantity: quantity,
-          price: product.price
-        };
-      });
-  
-  
-      const newOrder = new Order({
-        customerId: req.session.user._id,
-        products: orderProducts,
-        totalAmount: totalAmount,
-        shippingAddress: address,
-        paymentMethod: "Cash on Delivery",
-        status: "Pending",
-        datePlaced: Date.now()
-      });
-  
-      await newOrder.save();
-      res.clearCookie("cart");
-      req.flash("success", "Your order has been placed successfully!");
-      res.redirect("/confirmation");
+        // Validate that all IDs in the cart are valid MongoDB ObjectIDs
+        const validCart = cart.filter(id => mongoose.isValidObjectId(id));
+        console.log("Valid Cart:", validCart); // Debug: Log the valid cart IDs
+
+        // Fetch the product details for the valid product IDs in the cart
+        const productsInCart = await Product.find({ _id: { $in: validCart } });
+        console.log("Products in Cart:", productsInCart); // Debug: Log the fetched product details
+
+        let totalAmount = 0; // Initialize total amount to 0
+
+        // Map the products in the cart to the required format for order creation
+        const orderProducts = productsInCart.map(product => {
+            // Calculate the quantity of each product in the cart
+            const quantity = cart.filter(id => id.toString() === product._id.toString()).length;
+
+            // Increment the total amount by multiplying product price with its quantity
+            totalAmount += product.price * quantity;
+
+            // Return the structured data for each product in the order
+            return {
+                productId: product._id,
+                quantity: quantity,
+                price: product.price
+            };
+        });
+
+        // Create a new order document using the Order model
+        const newOrder = new Order({
+            customerId: req.session.user._id, // Associate the order with the logged-in user's ID
+            products: orderProducts, // Include all products in the order
+            totalAmount: totalAmount, // Include the calculated total amount
+            shippingAddress: address, // Use the provided shipping address
+            paymentMethod: "Cash on Delivery", // Set the payment method to Cash on Delivery
+            status: "Pending", // Set the initial status of the order to Pending
+            datePlaced: Date.now() // Record the timestamp for when the order was placed
+        });
+
+        // Save the new order to the database
+        await newOrder.save();
+
+        // Clear the cart from cookies after the order is placed
+        res.clearCookie("cart");
+
+        // Display a success message and redirect to the confirmation page
+        req.flash("success", "Your order has been placed successfully!");
+        res.redirect("/confirmation");
     } catch (err) {
-      console.error("Error placing the order:", err.message);
-      req.flash("error", "Something went wrong while processing your order. Please try again.");
-      res.redirect("/cart");
+        // Log the error to the console for debugging
+        console.error("Error placing the order:", err.message);
+
+        // Display an error message and redirect back to the cart page
+        req.flash("error", "Something went wrong while processing your order. Please try again.");
+        res.redirect("/cart");
     }
-  });
+});
+
   
   
   
@@ -320,6 +340,23 @@ router.get("/adminpanel/products-delete/:id", async (req, res) => {
       res.status(500).send("Error deleting product");
     }
   });
+
+  router.get("/order-admin", isAuthenticated, (req, res) => {
+    Order.find({})
+      .populate({
+        path: "products.productId", // Populate productId field
+        select: "title" // Fetch only the title field
+      })
+      .populate("customerId", "name email") // Optionally fetch customer details
+      .then((orders) => {
+        res.render("order-admin", { orders });
+      })
+      .catch((err) => {
+        console.error("Error fetching orders:", err);
+        res.status(500).send("Internal Server Error");
+      });
+  });
+  
 
 
 
