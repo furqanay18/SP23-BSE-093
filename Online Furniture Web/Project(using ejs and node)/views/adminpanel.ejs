@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+            background-color: burlywood;
+            /* burlywood theme */
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            background: url('background.jpeg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 200px;
+            height: 100vh;
+            background-color: rgb(255, 234, 207);
+            /* burlywood shade */
+            position: fixed;
+            top: 0;
+            left: 0;
+            font-family: "Playfair Display", serif;
+            overflow-y: auto;
+            padding-top: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            display: block;
+            color: #000;
+            text-decoration: none;
+            font-family: "Playfair Display", serif;
+            padding: 15px;
+            border-bottom: 1px solid rgb(255, 240, 221);
+            text-align: center;
+        }
+
+        .sidebar a:hover {
+            background-color: chocolate;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 200px;
+            padding: 20px;
+        }
+
+        header {
+            padding: 15px;
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            font-style: italic;
+            color: burlywood;
+            font-family: "Playfair Display", serif;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .card {
+            color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+        }
+
+        .card2 {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            align-items: center;
+            align-content: center;
+            text-align: center;
+        }
+
+        .card img {
+            align-items: center;
+            text-align: center;
+            max-width: 200%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #d2691e;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: chocolate;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #d2b48c;
+            background-color: #000;
+        }
+
+        .table th {
+            background-color: #f5deb3;
+            color: #000;
+        }
+
+        .add-button {
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        /* Styling for the Interior Blog section */
+        .interior-blog-container {
+            position: relative;
+            text-align: center;
+            color: black;
+            margin: 20px 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .interior-blog-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('admin.jpg') no-repeat center center;
+            background-size: cover;
+            opacity: 0.8;
+            z-index: -1;
+        }
+
+        .interior-blog-heading {
+            font-size: 48px;
+            color: burlywood;
+            font-family: "Playfair Display", serif;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .interior-blog-highlight {
+            color: white;
+            font-style: italic;
+        }
+
+        .sb {
+            color: black;
+            font-family: "Playfair Display", serif;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/order-admin" class="sb">ORDERS</a>
+        <a href="/admin/products" class="sb">PRODUCTS</a>
+        <a href="/admin/categories" class="sb">CATEGORIES</a>
+        <a href="/" class="sb">HOMEPAGE</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header>ADMIN PANEL</header>
+
+        <div class="interior-blog-container">
+            <h1 class="interior-blog-heading">PHARMACY <span class="interior-blog-highlight">STORE</span></h1>
+        </div>
+
+        <!-- CRUD Example: Products -->
+        <div class="card">
+            <h2>Products</h2>
+            <a href="/adminpanel/CreateProduct" class="btn add-button">Add New Product</a>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Formula</th>
+                  <th>Dimensions</th>
+                  <th>Company</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for (let index = 0; index < products.length; index++) { %>
+                  <tr>
+                    <td><%= products[index]._id %></td>
+                    <td><%= products[index].name %></td>
+                    <td><%= products[index].price %></td>
+                    <td><%= products[index].material %></td>
+                    <td><%= products[index].dimensions %></td>
+                    <td><%= products[index].category %></td>
+                    <td>
+                      <% if (products[index].image) { %>
+                        <img src="<%= products[index].image %>" alt="Product Image" style="width: 50px; height: auto;" />
+                      <% } else { %>
+                        No image available
+                      <% } %>
+                    </td>
+                    <td>
+                      <a href="/adminpanel/products-edit/<%= products[index]._id %>" class="btn">Edit</a>
+                      <a href="/adminpanel/products-delete/<%= products[index]._id %>" class="btn">Delete</a>
+                    </td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          
+
+        <!-- CRUD Example: Categories -->
+        <div class="card">
+            <h2>Categories</h2>
+            <a href="/adminpanel/CreateCategory" class="btn add-button">Add New Category</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Category Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for( let index=0; index < category.length; index++ ) { %>
+                        <tr>
+                            <td>
+                                <%= category[index]._id %>
+                            </td>
+                            <td>
+                                <%= category[index].name %>
+                            </td>
+                           
+                            <td>
+                                <a href="/adminpanel/category-edit/<%= category[index]._id %>" class="btn">Edit</a>
+                                <a href="/adminpanel/category-delete/<%= category[index]._id %>" class="btn">Delete</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
