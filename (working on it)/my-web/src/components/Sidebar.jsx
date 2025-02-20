@@ -21,7 +21,7 @@ const Sidebar = () => {
           <Link to="/products" style={styles.link}>Products</Link>
         </Typography >
         <Typography variant="h6">
-          <Link to="/services" v>Services</Link>
+          <Link to="/services" >Services</Link>
         </Typography>
         <Typography variant="h6">
           <Link to="/contactus" style={styles.link}>Contact</Link>
