@@ -1,0 +1,61 @@
+name: forkin
+description: "A seamless food delivery platform connecting users with local restaurants through a user-friendly app interface"
+publish_to: 'none' # Prevents accidental publishing to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Firebase Core (required)
+  firebase_core: ^2.31.0
+
+  # Firebase Authentication
+  firebase_auth: ^4.17.8
+
+  # Firestore Database
+  cloud_firestore: ^4.15.8
+
+  # Firebase Storage (for images)
+  firebase_storage: ^11.7.4
+
+  # Firebase Messaging (push notifications)
+  firebase_messaging: ^14.7.17
+
+  # Image picker
+  image_picker: ^1.0.5
+
+  # Google sign-in
+  google_sign_in: ^6.1.5
+
+  # Shared preferences
+  shared_preferences: ^2.2.2
+
+  # Fonts
+  google_fonts: ^6.2.1
+  font_awesome_flutter: ^10.7.0
+
+  # UI and onboarding
+  curved_navigation_bar: ^1.0.6
+  introduction_screen: ^3.1.12
+  lottie: ^2.7.0
+
+  # State management
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/

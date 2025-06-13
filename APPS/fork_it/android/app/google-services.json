@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "76902832747",
+    "project_id": "dil-se-deliver",
+    "storage_bucket": "dil-se-deliver.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76902832747:android:2ecc171f4a34110281ef2e",
+        "android_client_info": {
+          "package_name": "com.example.fork_it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76902832747-6cq6sb7vaq4r8mg1n56urik65utb6c1p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEHlRuIyrataAQAvrgaSRbMVLj2obCR3o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76902832747-6cq6sb7vaq4r8mg1n56urik65utb6c1p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "76902832747-frajk0ho8eak8uhbv0baj5af29eegdcd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.forkIt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

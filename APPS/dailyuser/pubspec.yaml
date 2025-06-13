@@ -1,0 +1,65 @@
+name: dailyuser
+description: "A new Flutter inventory management app."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Firebase Core (required)
+  firebase_core: ^2.31.0
+
+  # Firebase Authentication
+  firebase_auth: ^4.17.8
+
+  # Firestore Database
+  cloud_firestore: ^4.15.8
+
+  # Firebase Storage (for images)
+  firebase_storage: ^11.7.4
+
+  image_picker: ^1.0.5
+
+
+  # Firebase Messaging (push notifications)
+  firebase_messaging: ^14.7.17
+
+  google_sign_in: ^6.1.5
+
+  shared_preferences: ^2.2.2
+
+
+  # Google Fonts
+  google_fonts: ^6.2.1
+
+  curved_navigation_bar: ^1.0.6
+
+  introduction_screen: ^3.1.12
+  lottie: ^2.7.0
+
+  # Optional: State management
+  provider: ^6.1.2
+  font_awesome_flutter: ^10.7.0
+  salomon_bottom_bar: ^3.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+
+  fonts:
+    - family: Poppins
+
