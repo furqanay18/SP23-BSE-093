@@ -5,6 +5,8 @@ import 'package:forkin/AsSeller/becomeseller/introscreens.dart';
 import 'package:forkin/AsSeller/becomeseller/appliedfor.dart';
 import 'package:forkin/AsSeller/SellerPanel/sellerpanel.dart';
 import 'package:forkin/AsBuyer/bottomnavbar/profile/editprofile.dart';
+import 'package:forkin/Driver/applyfordriver.dart';
+import 'package:forkin/Driver/driverpanel.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:forkin/main.dart';
 import 'package:forkin/Admin/adminscreen.dart';
@@ -288,16 +290,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     onTap: () {
                                       if (isDriver) {
                                         // TODO: Navigate to Driver Panel screen
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                          content: Text("Navigate to Driver Panel screen"),
-                                          backgroundColor: Colors.green,
-                                        ));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => ApplyForDriverScreen()),
+                                        );
                                       } else {
                                         // TODO: Navigate to Apply-for-Driver screen
-                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                                          content: Text("Navigate to Driver Application screen"),
-                                          backgroundColor: Colors.orange,
-                                        ));
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => DriverPanelScreen()),
+                                        );
                                       }
                                     },
                                   ),

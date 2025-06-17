@@ -28,6 +28,9 @@ dependencies:
   # Firebase Messaging (push notifications)
   firebase_messaging: ^14.7.17
 
+  geolocator: ^10.1.0
+  permission_handler: ^11.3.0
+
   # Image picker
   image_picker: ^1.0.5
 
