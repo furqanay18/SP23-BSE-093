@@ -6,6 +6,10 @@ import 'package:forkin/AsSeller/becomeseller/appliedfor.dart';
 import 'package:forkin/AsSeller/SellerPanel/sellerpanel.dart';
 import 'package:forkin/AsBuyer/bottomnavbar/profile/editprofile.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:forkin/main.dart';
+import 'package:forkin/Admin/adminscreen.dart';
+
+
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -16,6 +20,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
+  Future<bool> checkIfAdmin() async {
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get();
+      final data = doc.data();
+      return data?['admin'] == true;
+    }
+    return false;
+  }
+
 
   Future<String> getBecomeOwnerStatus() async {
     if (user != null) {
@@ -170,7 +186,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     },
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 15),
+                  // Add this inside the Column in Padding (after the SizedBox of 30)
+                  Card(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)),
+                    elevation: 6,
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 20),
+                      leading: const Icon(Icons.logout, color: Colors.red),
+                      title: Text(
+                        "Logout",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w500, color: Colors.red),
+                      ),
+                      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) =>  WelcomeScreen()),
+                              (route) => false,
+                        );
+                      },
+                    ),
+                  ),
+                  FutureBuilder<bool>(
+                    future: checkIfAdmin(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox(); // or show a loader if preferred
+                      }
+                      if (snapshot.data == true) {
+                        return Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            Card(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              elevation: 6,
+                              child: ListTile(
+                                contentPadding:
+                                const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                                leading: const Icon(Icons.admin_panel_settings,
+                                    color: Colors.deepPurple),
+                                title: Text(
+                                  "Admin Panel",
+                                  style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                                ),
+                                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const PendingRestaurantsScreen()),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      } else {
+                        return const SizedBox(); // Do not show anything if not admin
+                      }
+                    },
+                  ),
+
+
                 ],
               ),
             ),

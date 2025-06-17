@@ -45,7 +45,8 @@ class _SignUpPageState extends State<SignUpPage> {
           'email': email,
           'address': address,
           'owner': false,
-          'becomeownerstatus': "nowish"
+          'becomeownerstatus': "nowish",
+          'admin':false,
         });
 
         setState(() {
