@@ -20,6 +20,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final User? user = FirebaseAuth.instance.currentUser;
+  Future<bool> checkIfDriver() async {
+    if (user != null) {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user!.uid)
+          .get();
+      final data = doc.data();
+      return data?['driver'] == true;
+    }
+    return false;
+  }
+
   Future<bool> checkIfAdmin() async {
     if (user != null) {
       final doc = await FirebaseFirestore.instance
@@ -246,6 +258,53 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 },
                               ),
                             ),
+                            const SizedBox(height: 15),
+                            FutureBuilder<bool>(
+                              future: checkIfDriver(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return const SizedBox(); // Can show loader here if you want
+                                }
+
+                                final isDriver = snapshot.data!;
+                                String title = isDriver ? "Driver Panel" : "Wanna Deliver?";
+                                IconData icon = isDriver ? Icons.delivery_dining : Icons.motorcycle;
+
+                                return Card(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  elevation: 6,
+                                  child: ListTile(
+                                    contentPadding:
+                                    const EdgeInsets.symmetric(vertical: 4, horizontal: 20),
+                                    leading: Icon(icon, color: Colors.orange[800]),
+                                    title: Text(
+                                      title,
+                                      style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
+                                    ),
+                                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                                    onTap: () {
+                                      if (isDriver) {
+                                        // TODO: Navigate to Driver Panel screen
+                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                          content: Text("Navigate to Driver Panel screen"),
+                                          backgroundColor: Colors.green,
+                                        ));
+                                      } else {
+                                        // TODO: Navigate to Apply-for-Driver screen
+                                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                          content: Text("Navigate to Driver Application screen"),
+                                          backgroundColor: Colors.orange,
+                                        ));
+                                      }
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+
                           ],
                         );
                       } else {
