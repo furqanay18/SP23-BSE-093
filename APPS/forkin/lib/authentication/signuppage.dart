@@ -47,6 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
           'owner': false,
           'becomeownerstatus': "nowish",
           'admin':false,
+          'driver':false
         });
 
         setState(() {

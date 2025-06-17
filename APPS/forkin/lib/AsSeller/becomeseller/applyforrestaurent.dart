@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:forkin/helpers/getcurrentlocation.dart'; // Import your getCurrentLocation() method
 
 class ApplyRestaurantScreen extends StatefulWidget {
   const ApplyRestaurantScreen({super.key});
@@ -40,6 +41,8 @@ class _ApplyRestaurantScreenState extends State<ApplyRestaurantScreen> {
     final restaurantRef = _firestore.collection('restaurants').doc();
 
     try {
+      final location = await getCurrentLocation(); // Your helper
+
       await restaurantRef.set({
         'restaurantId': restaurantRef.id,
         'uid': user.uid,
@@ -54,6 +57,12 @@ class _ApplyRestaurantScreenState extends State<ApplyRestaurantScreen> {
         'isOpen': false,
         'isApproved': false,
         'createdAt': FieldValue.serverTimestamp(),
+        'pickupLocation': location != null
+            ? {
+          'latitude': location.latitude,
+          'longitude': location.longitude,
+        }
+            : null,
       });
 
       await _firestore.collection('users').doc(user.uid).update({
@@ -61,7 +70,8 @@ class _ApplyRestaurantScreenState extends State<ApplyRestaurantScreen> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Restaurant application submitted.")));
+        const SnackBar(content: Text("Restaurant application submitted.")),
+      );
       Navigator.pop(context);
     } catch (e) {
       ScaffoldMessenger.of(context)
@@ -140,6 +150,29 @@ class _ApplyRestaurantScreenState extends State<ApplyRestaurantScreen> {
             key: _formKey,
             child: Column(
               children: [
+                // 📍 Location Info Message
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.yellow[100],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.location_on, color: Colors.black87),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Your current location will be used as pickup address by riders.",
+                          style: GoogleFonts.poppins(
+                              color: Colors.black87, fontSize: 13),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+
                 _buildLabeledField("Restaurant Name", _nameController,
                     Icons.restaurant_menu),
                 _buildLabeledField("Description", _descController,

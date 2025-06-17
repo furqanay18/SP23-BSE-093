@@ -292,13 +292,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         // TODO: Navigate to Driver Panel screen
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => ApplyForDriverScreen()),
+                                          MaterialPageRoute(builder: (context) => DriverPanelScreen()),
                                         );
                                       } else {
                                         // TODO: Navigate to Apply-for-Driver screen
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => DriverPanelScreen()),
+                                          MaterialPageRoute(builder: (context) => ApplyForDriverScreen()),
                                         );
                                       }
                                     },

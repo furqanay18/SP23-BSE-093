@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:forkin/homepage.dart';
+import 'package:geolocator/geolocator.dart'; // Make sure this is imported
+import 'package:forkin/helpers/getcurrentlocation.dart';
 
 class ConfirmOrderBar extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;
@@ -53,6 +55,8 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
     }
   }
 
+ // path to your getCurrentLocation() file
+
   Future<void> confirmOrder() async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
@@ -66,6 +70,16 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
 
     final productsId = widget.cartItems.map((item) => item['productId']).toList();
 
+    // Get user location
+    final Position? position = await getCurrentLocation();
+
+    if (position == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Unable to get location")),
+      );
+      return;
+    }
+
     await FirebaseFirestore.instance.collection('orders').add({
       'restaurantId': widget.restaurantId,
       'uid': uid,
@@ -76,7 +90,12 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
       'paymentMethod': 'Cash on Delivery',
       'cartItems': widget.cartItems,
       'status': 'Pending',
+      'rider':'no',
       'createdAt': FieldValue.serverTimestamp(),
+      'userLocation': {
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+      }
     });
 
     final prefs = await SharedPreferences.getInstance();
@@ -86,16 +105,13 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Order placed successfully!")),
       );
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('cart');
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const HomePage()),
       );
-
     }
-
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,8 +122,17 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
       color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start, // Align left
         children: [
-          Text("Deliver to: $userAddress", style: const TextStyle(fontSize: 14)),
+          const Text(
+            "📍 Your current location will be used as delivery location",
+            style: TextStyle(fontSize: 13, color: Colors.grey),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            "Deliver to: $userAddress",
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          ),
           const SizedBox(height: 6),
           TextField(
             controller: _phoneController,
@@ -122,8 +147,10 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total: ₹${totalBill.toStringAsFixed(2)}",
-                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              Text(
+                "Total: ₹${totalBill.toStringAsFixed(2)}",
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
               ElevatedButton(
                 onPressed: confirmOrder,
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange),
@@ -135,4 +162,5 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
       ),
     );
   }
+
 }
