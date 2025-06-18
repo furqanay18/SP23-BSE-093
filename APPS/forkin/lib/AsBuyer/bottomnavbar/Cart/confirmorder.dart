@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:forkin/homepage.dart';
 import 'package:geolocator/geolocator.dart'; // Make sure this is imported
 import 'package:forkin/helpers/getcurrentlocation.dart';
+import 'package:forkin/AsBuyer/bottomnavbar/Cart/mapboxscreen.dart';
 
 class ConfirmOrderBar extends StatefulWidget {
   final List<Map<String, dynamic>> cartItems;
@@ -134,6 +135,29 @@ class _ConfirmOrderBarState extends State<ConfirmOrderBar> {
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 6),
+          ElevatedButton.icon(
+            onPressed: () async {
+              final position = await getCurrentLocation(); // Use your method
+              if (position != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => OSMMapScreen(
+                      latitude: position.latitude,
+                      longitude: position.longitude,
+                    ),
+                  ),
+                );
+              }
+            },
+            icon: const Icon(Icons.map),
+            label: const Text("See on Map"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueAccent,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+          ),
+
           TextField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,

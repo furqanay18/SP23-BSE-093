@@ -35,6 +35,9 @@ dependencies:
 
   # Image picker
   image_picker: ^1.0.5
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.0
+
 
   # Google sign-in
   google_sign_in: ^6.1.5
@@ -53,6 +56,9 @@ dependencies:
 
   # State management
   provider: ^6.1.2
+
+  lucide_icons: ^0.257.0
+
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:forkin/AsSeller/SellerPanel/sellerpanel.dart'; // ✅ Add your seller panel screen import
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -79,7 +80,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Product added!")),
       );
-      Navigator.pop(context);
+
+      // ✅ Redirect to seller panel
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const SellerPanelScreen()),
+      );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Failed to add product: $e")),
@@ -165,8 +171,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ),
             ),
             items: _categories
-                .map((cat) =>
-                DropdownMenuItem(value: cat, child: Text(cat)))
+                .map((cat) => DropdownMenuItem(value: cat, child: Text(cat)))
                 .toList(),
             onChanged: (val) => setState(() => _selectedCategory = val),
             validator: (val) => val == null ? "Select a category" : null,
@@ -183,7 +188,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       backgroundColor: const Color(0xFF121212),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1C1C1C),
-        iconTheme: const IconThemeData(color: Colors.yellow),
+        automaticallyImplyLeading: false, // ✅ remove back arrow
         title: Text("Add Product",
             style: GoogleFonts.poppins(color: Colors.white)),
         centerTitle: true,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:forkin/AsBuyer/bottomnavbar/Restaurent/products.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:forkin/AsBuyer/bottomnavbar/favorites/favourite_helper.dart';
+import 'package:forkin/AsBuyer/bottomnavbar/Restaurent/closedrestraunt.dart';
 
 class RestaurentsList extends StatefulWidget {
   const RestaurentsList({super.key});
@@ -45,14 +46,13 @@ class _RestaurentsListState extends State<RestaurentsList> {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
-    final snapshot =
-        await FirebaseFirestore.instance
-            .collection('orders')
-            .where('uid', isEqualTo: uid)
-            .where('status', isNotEqualTo: 'Delivered')
-            .orderBy('createdAt', descending: true)
-            .limit(1)
-            .get();
+    final snapshot = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('uid', isEqualTo: uid)
+        .where('status', isNotEqualTo: 'Delivered')
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .get();
 
     if (snapshot.docs.isNotEmpty) {
       setState(() {
@@ -102,10 +102,7 @@ class _RestaurentsListState extends State<RestaurentsList> {
           children: [
             if (orderStatus != null)
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Card(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
@@ -137,16 +134,12 @@ class _RestaurentsListState extends State<RestaurentsList> {
                   ),
                 ),
               ),
-
             const SizedBox(height: 8),
-
             StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance
-                      .collection('restaurants')
-                      .where('isApproved', isEqualTo: true)
-                      .where('isOpen', isEqualTo: true)
-                      .snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('restaurants')
+                  .where('isApproved', isEqualTo: true)
+                  .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return const Center(child: CircularProgressIndicator());
@@ -158,7 +151,7 @@ class _RestaurentsListState extends State<RestaurentsList> {
                   return const Padding(
                     padding: EdgeInsets.all(16),
                     child: Text(
-                      "No open restaurants currently.",
+                      "No restaurants currently.",
                       style: TextStyle(color: Colors.white),
                     ),
                   );
@@ -173,17 +166,24 @@ class _RestaurentsListState extends State<RestaurentsList> {
                     final restaurantId = data['restaurantId'];
 
                     return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (_) => RestaurantDetailPage(
-                                  restaurantId: restaurantId,
-                                ),
-                          ),
-                        );
-                      },
+                        onTap: () {
+                          if (data['isOpen'] == true) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => RestaurantDetailPage(restaurantId: restaurantId),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const ClosedRestaurantPage(),
+                              ),
+                            );
+                          }
+                        },
+
                       child: Card(
                         color: const Color(0xFF1C1C1C),
                         margin: const EdgeInsets.symmetric(
@@ -203,17 +203,40 @@ class _RestaurentsListState extends State<RestaurentsList> {
                                 topLeft: Radius.circular(16),
                                 bottomLeft: Radius.circular(16),
                               ),
-                              child: Image.network(
-                                data['coverPhoto'] ?? '',
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.cover,
-                                errorBuilder:
-                                    (_, __, ___) => const Icon(
+                              child: Stack(
+                                children: [
+                                  Image.network(
+                                    data['coverPhoto'] ?? '',
+                                    width: 120,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (_, __, ___) => const Icon(
                                       Icons.image,
                                       size: 100,
                                       color: Colors.white,
                                     ),
+                                  ),
+                                  if (data['isOpen'] == false)
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(vertical: 4),
+                                        color: Colors.black.withOpacity(0.6),
+                                        child: Center(
+                                          child: Text(
+                                            "Closed",
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.redAccent,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -227,8 +250,7 @@ class _RestaurentsListState extends State<RestaurentsList> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Expanded(
                                           child: Text(
@@ -247,12 +269,9 @@ class _RestaurentsListState extends State<RestaurentsList> {
                                             favoriteIds.contains(restaurantId)
                                                 ? Icons.favorite
                                                 : Icons.favorite_border,
-                                            color:
-                                                favoriteIds.contains(
-                                                      restaurantId,
-                                                    )
-                                                    ? Colors.red
-                                                    : Colors.white70,
+                                            color: favoriteIds.contains(restaurantId)
+                                                ? Colors.red
+                                                : Colors.white70,
                                           ),
                                           onPressed: () => toggleFavorite(data),
                                         ),
@@ -304,3 +323,4 @@ class _RestaurentsListState extends State<RestaurentsList> {
     );
   }
 }
+

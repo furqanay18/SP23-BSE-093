@@ -68,12 +68,19 @@ class _AcceptOrderScreenState extends State<AcceptOrderScreen> {
   }
 
   Future<void> _launchCoordinates(double lat, double lng) async {
-    final url = Uri.parse("https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+    final Uri url = Uri.parse("https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+
     if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication, // Ensures it opens in Maps app or browser
+      );
+    } else {
+      // Optional: Show error if URL couldn't be launched
+      debugPrint('Could not launch map URL: $url');
+      // You can show a snackbar or alert here if needed
     }
   }
-
   Future<void> _acceptOrder() async {
     final currentUser = _auth.currentUser;
     if (currentUser == null || orderData == null) return;
