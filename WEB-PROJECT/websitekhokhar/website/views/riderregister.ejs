@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rider Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      background: linear-gradient(135deg, #003973, #E5E5BE);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      width: 850px;
+      height: 500px;
+      height: auto;
+      background: white;
+      display: flex;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .left-panel {
+      background: linear-gradient(to bottom right, #045f93, #0493c9);
+      flex: 1;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+
+    .left-panel h2 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .left-panel p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .left-panel button {
+      padding: 10px 20px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    .left-panel button:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .right-panel {
+      flex: 1;
+      padding: 40px 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .right-panel {
+  justify-content: flex-start; /* start from top */
+}
+
+    .right-panel h2 {
+      font-size: 28px;
+      color: #045f93;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    input {
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    button[type="submit"] {
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #045f93;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #033f68;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    a {
+      color: #045f93;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        width: 90%;
+        height: auto;
+      }
+
+      .left-panel, .right-panel {
+        width: 100%;
+        flex: none;
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <h2>Rider Registration</h2>
+      <p>Register to become a rider. It’s free, quick, and secure!</p>
+      <button>Get Started</button>
+    </div>
+    <div class="right-panel">
+      <h2>Create Account</h2>
+      <form action="/rider/register" method="POST" autocomplete="off">
+        <label for="name">Name:</label>
+        <input type="text" name="name" id="name" required />
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required />
+
+        <label for="phone">Phone:</label>
+        <input type="text" name="phone" id="phone" required />
+
+         <label for="city">City:</label>
+        <input type="text" name="city" id="city" required />
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+
+        <label for="password2">Confirm Password:</label>
+        <input type="password" name="password2" id="password2" required />
+
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="/rider/login">Login here</a></p>
+    </div>
+  </div>
+</body>
+</html>

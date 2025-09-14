@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard - Buy and Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #e0e7ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #1e293b;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #6366f1;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav ul li {
+      cursor: pointer;
+    }
+    nav ul li a {
+      color: #e0e7ff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #4f46e5;
+      color: white;
+    }
+
+    /* Hero/banner */
+    .hero {
+      background: url('/images/admin-banner.jpg') center/cover no-repeat;
+      height: 250px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #e0e7ff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.7);
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    /* Main content */
+    main {
+      flex-grow: 1;
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      min-height: 60vh;
+    }
+    .section-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #818cf8;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 1rem 0;
+      font-size: 0.9rem;
+      margin-top: auto;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* Loader / No data */
+    
+
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">Buy and Shop Admin</div>
+    <ul id="navLinks">
+      <li><a href="#" class="active" data-section="customers">Customers</a></li>
+      <li><a href="/shopsdata" data-section="shopowners">Shop Owners</a></li>
+      <li><a href="#" data-section="orders">Orders</a></li>
+      <li><a href="/admin/logout">Logout</a></li>
+      <li><a href="#" data-section="payments">Payments</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    Welcome to Admin Dashboard
+  </section>
+
+  
+
+  <footer>
+    &copy; 2025 Buy and Shop. All rights reserved.
+  </footer>
+
+</body>
+</html>

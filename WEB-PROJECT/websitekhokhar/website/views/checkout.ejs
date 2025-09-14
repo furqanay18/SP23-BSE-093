@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkout - Buy and Shop</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    a {
+      color: #ff5252;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #1e1e1e;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff5252;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+    }
+
+    .checkout-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .cart-summary,
+    .checkout-form {
+      flex: 1 1 400px;
+    }
+
+    .cart-summary {
+      border-right: 1px solid #333;
+      padding-right: 30px;
+    }
+
+    .cart-summary h2,
+    .checkout-form h2 {
+      border-bottom: 2px solid #ff5252;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-item:hover {
+      transform: scale(1.01);
+    }
+
+    .cart-item-details {
+      max-width: 70%;
+    }
+
+    .cart-item-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .cart-item-shop,
+    .cart-item-category {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .cart-item-qty-price {
+      text-align: right;
+      font-weight: 600;
+      color: #ff5252;
+    }
+
+    .total {
+      text-align: right;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-top: 30px;
+      color: #ff5252;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      padding: 12px 14px;
+      font-size: 1rem;
+      border-radius: 6px;
+      background: #2c2c2c;
+      color: #f1f1f1;
+      border: 1px solid #444;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #ff5252;
+      box-shadow: 0 0 6px rgba(255, 82, 82, 0.5);
+    }
+
+    textarea {
+      min-height: 80px;
+    }
+
+    button[type="submit"] {
+      background-color: #ff5252;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #e53935;
+      transform: scale(1.05);
+    }
+
+    select {
+      appearance: none;
+    }
+
+    /* Payment section */
+    .payment-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .payment-method {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: #2c2c2c;
+      border-radius: 6px;
+      transition: transform 0.2s ease;
+    }
+
+    .payment-method:hover {
+      background: #3a3a3a;
+      transform: translateX(5px);
+    }
+
+    .payment-method input {
+      accent-color: #ff5252;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-wrapper {
+        flex-direction: column;
+      }
+
+      .cart-summary {
+        padding-right: 0;
+        border-right: none;
+        margin-bottom: 40px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Checkout</h1>
+
+    <div class="checkout-wrapper">
+      <!-- Cart Summary -->
+      <section class="cart-summary">
+        <h2>Your Cart</h2>
+
+        <% if (products.length === 0) { %>
+          <p>Your cart is empty.</p>
+        <% } else { %>
+          <% products.forEach(product => { %>
+            <div class="cart-item">
+              <div class="cart-item-details">
+                <div class="cart-item-name"><img src="<%= product.picture %>" alt="Product" width="80" style="border-radius: 6px;"></div>
+                <div class="cart-item-name"><%= product.title || "Unnamed Product" %></div>
+                <div class="cart-item-shop">Shop: <%= product.shopId?.name || "Unknown" %></div>
+                <div class="cart-item-category">Category: <%= product.category?.name || "N/A" %></div>
+                <div>Quantity: <%= product.quantity %></div>
+              </div>
+              <div class="cart-item-qty-price">
+                $<%= (product.price * product.quantity).toFixed(2) %>
+              </div>
+            </div>
+          <% }) %>
+
+          <div class="total">
+            Total: $<%= total %>
+          </div>
+        <% } %>
+      </section>
+
+      <!-- Checkout Form -->
+      <section class="checkout-form">
+        <h2>Billing & Shipping</h2>
+        <form action="/checkout" method="POST">
+          <label for="fullname">Full Name</label>
+          <input type="text" id="fullname" name="name" placeholder="John Doe" required />
+
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="john@example.com" required />
+
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 555 555 5555" required />
+
+          <label for="address">Shipping Address</label>
+          <textarea id="address" name="address" placeholder="123 Main St, City, Country" required></textarea>
+
+          <div class="payment-section">
+            <label>Payment Method</label>
+
+            <div class="payment-method">
+              <input type="radio" id="credit" name="paymentMethod" value="credit" required />
+              <label for="credit">Credit / Debit Card</label>
+            </div>
+
+            <div class="payment-method">
+              <input type="radio" id="paypal" name="paymentMethod" value="paypal" />
+              <label for="paypal">PayPal</label>
+            </div>
+
+            <div class="payment-method">
+              <input type="radio" id="cod" name="paymentMethod" value="cod" />
+              <label for="cod">Cash on Delivery</label>
+            </div>
+          </div>
+
+          <button type="submit">Place Order</button>
+        </form>
+      </section>
+    </div>
+  </div>
+
+</body>
+</html>

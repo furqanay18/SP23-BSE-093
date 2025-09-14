@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Shop Orders</title>
+  <link rel="stylesheet" href="/css/style.css" />
+<style>
+  body {
+  margin: 0;
+  padding: 40px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Replacing background image with a smooth dark gradient */
+  background: linear-gradient(135deg, #0b1a33, #162d52, #0b1a33);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+  h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 4px 10px rgba(0, 48, 87, 0.6);
+    color: #e0f7fa;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .table-wrapper {
+    background: rgba(16, 24, 42, 0.85);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 50, 0.5);
+    backdrop-filter: blur(14px);
+    overflow-x: auto;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(6px);
+  }
+
+  thead {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  th, td {
+    padding: 16px 22px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+  }
+
+  th {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #a8d8f8;
+    font-size: 0.8rem;
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+  }
+
+  th:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 255, 255, 0.3);
+    cursor: default;
+  }
+
+  td:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 16px rgba(0, 255, 255, 0.3);
+    position: relative;
+    z-index: 2;
+    border-radius: 6px;
+  }
+
+  tr:hover {
+    background-color: rgba(0, 255, 255, 0.05);
+    transition: background 0.3s ease;
+  }
+
+  ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+
+  ul li {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  .status {
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.8rem;
+    display: inline-block;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .pending     { background: linear-gradient(135deg, #29b6f6, #4fc3f7); color: #000; }
+  .processing  { background: linear-gradient(135deg, #0288d1, #03a9f4); color: #fff; }
+  .shipped     { background: linear-gradient(135deg, #00acc1, #4dd0e1); color: #fff; }
+  .delivered   { background: linear-gradient(135deg, #00838f, #26c6da); color: #fff; }
+  .cancelled   { background: linear-gradient(135deg, #ef5350, #e57373); color: #fff; }
+  .assigned    { background: linear-gradient(135deg, #1565c0, #5c6bc0); color: #fff; }
+  .picked      { background: linear-gradient(135deg, #00bcd4, #4dd0e1); color: #fff; }
+  .in_transit  { background: linear-gradient(135deg, #3949ab, #7986cb); color: #fff; }
+  .completed   { background: linear-gradient(135deg, #1b5e20, #66bb6a); color: #fff; }
+
+  select, button {
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    outline: none;
+    border: none;
+  }
+
+  select {
+    background-color: #0d192c;
+    color: #eee;
+    border: 1px solid #234;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+
+  button {
+    background: #00838f;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 8px;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #00acc1;
+  }
+
+  .no-orders {
+    text-align: center;
+    background: rgba(0, 0, 50, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    color: #eee;
+    margin-top: 20px;
+    max-width: 1200px;
+    width: 100%;
+  }
+
+  .back-home-btn {
+    margin: 30px auto 0 auto;
+    display: block;
+    background: linear-gradient(135deg, #81d4fa, #29b6f6);
+    color: #002f4b;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    max-width: 300px;
+    width: 90%;
+  }
+
+  .back-home-btn:hover {
+    background: #4fc3f7;
+    box-shadow: 0 10px 24px rgba(255, 255, 255, 0.2);
+    transform: translateY(-3px);
+  }
+
+  .back-home-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    th {
+      display: none;
+    }
+
+    tr {
+      background: rgba(0, 32, 64, 0.6);
+      margin-bottom: 20px;
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: none;
+    }
+
+    td:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 6px 16px rgba(0, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      z-index: 2;
+      position: relative;
+      border-radius: 6px;
+    }
+
+    td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      color: #80deea;
+      flex: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <h2>📦 Your Shop Orders</h2>
+
+  <% if (orders.length === 0) { %>
+    <div class="no-orders">No orders found for your shop.</div>
+  <% } else { %>
+    <div class="table-wrapper">
+      <table id="ordersTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Products</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Order Status</th>
+            <th>Delivery Status</th>
+            <th>Rider Status</th>
+            <th>Rider</th>
+            <th>Assign Rider</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach(order => { %>
+            <tr>
+              <td data-label="Name"><%= order.customer.name %></td>
+              <td data-label="Email"><%= order.customer.email %></td>
+              <td data-label="Phone"><%= order.customer.phone %></td>
+              <td data-label="Address"><%= order.customer.address %></td>
+
+              <td data-label="Products">
+                <ul>
+                  <% order.products.forEach(item => { %>
+                    <li>
+                      <strong><%= item.quantity %>x</strong>
+                      <%= item.productId.title %> — $<%= item.price %>
+                    </li>
+                  <% }) %>
+                </ul>
+              </td>
+
+              <td data-label="Total">$<%= order.totalAmount %></td>
+              <td data-label="Payment"><%= order.paymentMethod.toUpperCase() %></td>
+
+              <td data-label="Status">
+                <span class="status <%= order.status %>"><%= order.status %></span>
+              </td>
+
+              <td data-label="Delivery Status">
+                <span class="status <%= order.deliveryStatus %>">
+                  <%= order.deliveryStatus.replace('_', ' ').toUpperCase() %>
+                </span>
+              </td>
+
+              <td data-label="Rider Status">
+                <span class="status <%= order.riderStatus || 'pending' %>">
+                  <%= (order.riderStatus || 'pending').replace('_', ' ').toUpperCase() %>
+                </span>
+                <% if (order.riderStatus === 'rejected') { %>
+                  <div style="margin-top: 8px; color: #ff5555;font-weight: bolder;">
+                  ⚠️ Rejected: <%= order.riderRejectionReason || 'No reason provided' %>
+                  </div>
+                <% } %>
+              </td>
+
+              <td data-label="Rider">
+                <%= order.rider ? order.rider.name + ' (' + order.rider.city + ')' : "Not Assigned" %>
+              </td>
+
+              <td data-label="Assign Rider">
+                <% if (order.riderStatus === 'rejected') { %>
+                  <form action="/shop/orders/<%= order._id %>/reassign" method="POST">
+                    <select name="newRiderId" required>
+                      <option value="">Select New Rider</option>
+                      <% riders.forEach(rider => { %>
+                        <option value="<%= rider._id %>"
+                          <%= order.rider && order.rider._id.equals(rider._id) ? 'selected' : '' %>>
+                          <%= rider.name %> - <%= rider.city %> - <%= rider.phone %>
+                        </option>
+                      <% }) %>
+                      
+                        
+                    </select>
+                    <button type="submit">Reassign</button>
+                  </form>
+                <% } else { %>
+                  <form action="/shop/orders/<%= order._id %>/assign-rider" method="POST">
+                    <select name="riderId" required>
+                      <option value="">Select Rider</option>
+                      <% riders.forEach(rider => { %>
+                        <option value="<%= rider._id %>"
+                          <%= order.rider && order.rider._id.equals(rider._id) ? 'selected' : '' %>>
+                          <%= rider.name %> - <%= rider.city %> - <%= rider.phone %>
+                        </option>
+                      <% }) %>
+                    </select>
+                    <button type="submit">Assign</button>
+                  </form>
+                <% } %>
+              </td>
+
+              <td data-label="Date"><%= order.createdAt.toLocaleString() %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } %>
+
+  <a href="/admin/products" class="back-home-btn" aria-label="Back to Homepage">🌀 Back to Homepage</a>
+
+</body>
+</html>

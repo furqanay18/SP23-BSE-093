@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= shop.name %> | Official Shop Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f5;
+      color: #1f2937;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #111827;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      width: 100%;
+      position: static;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #facc15;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #facc15;
+    }
+
+    /* Full-width Picture Section */
+    .picture-section {
+      width: 100%;
+      height: 420px;
+    }
+
+    .picture-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* About + Banner Section */
+    .about-banner-section {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      background-color: lightgray;
+      padding: 60px 30px;
+      gap: 40px;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .about-text {
+      flex: 1;
+    }
+
+    .about-text h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .about-text p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .banner-carousel {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .banner-carousel img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      display: none;
+    }
+
+    .banner-carousel img.active {
+      display: block;
+    }
+
+    /* Contact Section */
+    .contact-section {
+      width: 100%;
+      background-color: darkgray;
+      color: #fff;
+      padding: 60px 30px;
+      border-top: 1px solid #333;
+      border-bottom: 1px solid #333;
+    }
+
+    .contact-section h2 {
+      text-align: center;
+      font-size: 40px;
+      color: black;
+      margin-bottom: 10px;
+    }
+
+    .contact-section .description {
+      text-align: center;
+      color: black;
+      margin-bottom: 40px;
+    }
+
+    .contact-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .contact-box {
+      background-color: #111827;
+      padding: 30px;
+      border-radius: 12px;
+      width: 280px;
+      text-align: center;
+      transition: 0.3s ease;
+    }
+
+    .contact-box:hover {
+      background-color: whitesmoke;
+      color: #111827;
+      box-shadow: 10px 20px 20px #1f2937;
+    }
+
+    .contact-box h3 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      
+    }
+
+    .contact-box p a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .contact-box p a:hover {
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      width: 100%;
+      background-color: #111827;
+      text-align: center;
+      padding: 15px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .about-banner-section {
+        flex-direction: column;
+      }
+
+      .banner-carousel img {
+        height: 200px;
+      }
+
+      .contact-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo" style="display: flex; align-items: center; gap: 10px;">
+      <img src="/<%= shop.logo %>" alt="Logo" style="height: 50px; width: 50px; object-fit: cover; border-radius: 50%;">
+      <span><%= shop.name %></span>
+    </div>
+    <ul>
+      <% if (isOwner) { %>
+  <li><a href="/admin/products">Products Management</a></li>
+  <li><a href="/logout">Logout</a></li>
+<% } %>
+
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <% if (!isOwner) { %>
+  <li><a href="/">Home</a></li>
+<% } %>
+      
+      
+      <li><a href="/shop/<%= shop._id %>/products" class="btn btn-outline-primary">
+  <i class="fas fa-box"></i> View My Products
+</a></li>
+
+
+    </ul>
+  </nav>
+
+  <!-- Picture Section -->
+  <div class="picture-section" id="products">
+    <img src="/<%= shop.pictures[0] %>" alt="Shop Banner">
+  </div>
+
+  <!-- About and Banner Section -->
+  <div class="about-banner-section" id="about">
+    <div class="about-text">
+      <h2>About <%= shop.name %></h2>
+      <p>
+        Welcome to <%= shop.name %> — your destination for premium electronics and accessories. 
+        We deliver exceptional quality and service that builds trust with every purchase.
+      </p>
+    </div>
+    <div class="banner-carousel">
+      <% shop.banners.forEach((ban, index) => { %>
+        <img src="/<%= ban %>" class="<%= index === 0 ? 'active' : '' %>">
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <div class="contact-section" id="contact">
+    <h2>Contact Us</h2>
+    <p class="description">Reach out to us for orders, queries, or support!</p>
+    <div class="contact-grid">
+      <div class="contact-box">
+        <h3>Address</h3>
+        <p><a href="https://www.google.com/maps/search/<%= encodeURIComponent(shop.address) %>" target="_blank"><%= shop.address %></a></p>
+        <p><%= shop.city %></p>
+      </div>
+      <div class="contact-box">
+        <h3>Email</h3>
+        <p><a href="mailto:<%= shop.email %>"><%= shop.email %></a></p>
+      </div>
+      <div class="contact-box">
+        <h3>Phone</h3>
+        <p><a href="tel:<%= shop.phone %>"><%= shop.phone %></a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; <%= new Date().getFullYear() %> <%= shop.name %>. All rights reserved.
+  </footer>
+
+  <!-- Auto-switch banner script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const banners = document.querySelectorAll('.banner-carousel img');
+      let index = 0;
+      setInterval(() => {
+        banners[index].classList.remove('active');
+        index = (index + 1) % banners.length;
+        banners[index].classList.add('active');
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

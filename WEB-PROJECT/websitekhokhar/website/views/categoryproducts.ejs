@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background-color: #0e0e0e;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 30px 0 0;
+      font-size: 2.5rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+      padding: 60px;
+    }
+
+    .product-card {
+      background: #1c1c1c;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 40px rgba(255, 255, 255, 0.08);
+    }
+
+    .product-img-container {
+      width: 100%;
+      height: 260px;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-img-container img {
+      max-height: 100%;
+      max-width: 100%;
+      object-fit: contain;
+      transition: transform 0.4s ease;
+    }
+
+    .product-card:hover .product-img-container img {
+      transform: scale(1.08);
+    }
+
+    .product-info {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .product-info h3 {
+      margin: 0 0 10px;
+      font-size: 1.2rem;
+      color: #ffffff;
+      text-transform: capitalize;
+    }
+
+    .product-info .price {
+      font-weight: bold;
+      color: #ff9800;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+    }
+
+    .product-info .desc {
+      font-size: 0.9rem;
+      color: #bbbbbb;
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+
+    .btn-view {
+      display: inline-block;
+      padding: 10px 20px;
+      background: linear-gradient(to right, #ff6a00, #ff9900);
+      color: #111;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.3s ease, transform 0.3s ease;
+      margin-top: auto;
+    }
+
+    .btn-view:hover {
+      background: linear-gradient(to right, #ffaa00, #ffc107);
+      transform: scale(1.05);
+    }
+
+    .tag-new {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: #ff0000;
+      color: white;
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .rating {
+      color: gold;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .no-products {
+      grid-column: 1 / -1;
+      text-align: center;
+      font-size: 1.2rem;
+      padding: 40px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>Products</h1>
+
+  <div class="products-grid">
+    <% if (products.length === 0) { %>
+      <div class="no-products">No products found for this category.</div>
+    <% } else { %>
+      <% products.forEach(function(product) { %>
+        <div class="product-card">
+          
+          <div class="product-img-container">
+            <img src="/<%= product.picture %>" alt="<%= product.title %>">
+          </div>
+          <div class="product-info">
+            <h3><%= product.title %></h3>
+            <p class="price">PKR <%= product.price %></p>
+            <div class="rating">★★★★★</div>
+            <p class="desc"><%= product.description %></p>
+            <a href="/product/<%= product._id %>" class="btn-view">View Details</a>
+          </div>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+</body>
+</html>

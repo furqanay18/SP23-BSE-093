@@ -1,0 +1,721 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buy and Shop - Premium Landing Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+<!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet" />
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+  <!-- Model Viewer -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    :root {
+      --primary-color: #ff4747;
+      --bg-dark: #0f0f0f;
+      --text-light: #e0e0e0;
+      --glass: rgba(255, 255, 255, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #121212, #0a0a0a);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-bar {
+      background: #121212;
+      padding: 12px 30px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+    }
+
+    .top-bar nav a {
+      margin-left: 20px;
+      color: #999;
+      transition: color 0.3s ease;
+    }
+
+    .top-bar nav a:hover {
+      color: #fff;
+    }
+
+    .main-nav {
+      padding: 25px 40px;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary-color);
+    }
+
+    .main-nav input, .main-nav select {
+      padding: 10px 14px;
+      margin: 5px;
+      background: #2a2a2a;
+      color: white;
+      border: none;
+      border-radius: 6px;
+    }
+
+    .contact-info {
+      font-size: 14px;
+      color: #aaa;
+    }
+
+    .icons i {
+      margin-left: 16px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #ccc;
+      transition: color 0.3s;
+    }
+
+    .icons i:hover {
+      color: white;
+    }
+
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 10%;
+      background: linear-gradient(145deg, #121212 0%, #0a0a0a 100%);
+      flex-wrap: wrap;
+      min-height: 100vh;
+    }
+
+    .hero-text {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .hero-text h2 {
+      font-size: 22px;
+      color: #aaa;
+      margin-bottom: 10px;
+    }
+
+    .hero-text h1 {
+      font-size: 50px;
+      margin-bottom: 25px;
+      color: white;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+      color: #ccc;
+      margin-bottom: 40px;
+    }
+
+    .hero-text button {
+      padding: 14px 32px;
+      font-size: 16px;
+      font-weight: 600;
+      color: white;
+      background: var(--primary-color);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 10px 20px rgba(255, 71, 71, 0.3);
+    }
+
+    .hero-model {
+      flex: 1;
+      max-width: 500px;
+      min-width: 300px;
+      height: 500px;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+    }
+
+    .promo-banners {
+      display: flex;
+      width: 100%;
+      height: 400px;
+      gap: 10px;
+      padding: 20px;
+    }
+
+    .banner-large {
+      width: 65%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .banner-large img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.7);
+    }
+
+    .banner-text {
+      position: absolute;
+      top: 30px;
+      left: 30px;
+      color: white;
+    }
+
+    .banner-text h2 {
+      font-size: 42px;
+      font-weight: 800;
+    }
+
+    .banner-text p {
+      font-size: 24px;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 6px 12px;
+      border-radius: 8px;
+    }
+
+    .banner-side {
+      width: 35%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .banner-side img {
+      width: 100%;
+      height: calc((100% - 20px) / 3);
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .hot-selling-section {
+      background-color: #111;
+      padding: 20px 10px; /* Reduced padding */
+    }
+
+    .hot-selling-header {
+      font-size: 24px; /* Reduced size */
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 15px; /* Reduced margin */
+      text-align: center;
+    }
+
+    .hot-container {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px; /* Adjusted gap */
+    }
+
+    .sale-banner {
+      width: 15%; /* Reduced width */
+    }
+
+    .sale-banner img {
+  width: 100%;
+  height: 280px;
+   /* limit height */
+  
+}
+
+    .slider-wrapper {
+      width: 75%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .arrow-btn {
+      font-size: 22px; /* Reduced font size */
+      color: #fff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .product-slider {
+      display: flex;
+      overflow: hidden;
+      gap: 15px; /* Reduced gap */
+      scroll-behavior: smooth;
+      flex: 1;
+    }
+
+    .product-card {
+      min-width: 100px; /* Reduced width */
+      height: 180px; /* Reduced height */
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      padding: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 100px; /* Reduced image size */
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .product-card h3 {
+      font-size: 14px; /* Reduced font size */
+      margin: 5px 0;
+    }
+
+    .product-card p {
+      color: #ff4747;
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .hot-container {
+        flex-direction: column;
+      }
+
+      .sale-banner, .slider-wrapper {
+        width: 100%;
+      }
+
+      .product-card {
+        min-width: 120px; /* Reduced minimum width */
+        height: 220px; /* Adjusted height for smaller screens */
+      }
+    }
+
+    .contact-section {
+    background: #151515;
+    padding: 60px 20px;
+    text-align: center;
+    color: white;
+  }
+
+  .contact-section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+  }
+
+  .contact-section p {
+    font-size: 16px;
+    color: #ccc;
+    margin-bottom: 40px;
+  }
+
+  .contact-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .contact-info-box {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+  }
+
+  .contact-info-box i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+  }
+
+  .contact-info-box h4 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    display: grid;
+    gap: 20px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #2a2a2a;
+    color: white;
+  }
+
+  .contact-form button {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .contact-form button:hover {
+    background-color: #e03e3e;
+  }
+
+  .main-footer {
+    background-color: #121212;
+    padding: 60px 20px 30px;
+    color: #ccc;
+  }
+
+  .footer-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .footer-col {
+    flex: 1 1 200px;
+  }
+
+  .footer-col h4 {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .footer-col p {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-col ul li {
+    margin-bottom: 10px;
+  }
+
+  .footer-col ul a {
+    color: #bbb;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+
+  .footer-col ul a:hover {
+    color: #ff4747;
+  }
+
+  .footer-socials a {
+    color: #bbb;
+    margin-right: 14px;
+    font-size: 18px;
+    transition: 0.3s;
+  }
+
+  .footer-socials a:hover {
+    color: #ff4747;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+  }
+
+  @media (max-width: 768px) {
+    .footer-columns {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .footer-socials {
+      justify-content: center;
+      display: flex;
+      margin-top: 10px;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <span>WELCOME TO OUR STORE!</span>
+    <nav>
+      <a href="/productspage">Products</a>
+      <a href="/adminpanel">Admin</a>
+      <a href="/login">Shop Owner</a>
+      <a href="# "target="_blank">Pay Now</a>
+
+      <a href="/cart">Cart</a>
+      <a href="/totalshops">Stores</a>
+    </nav>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="main-nav">
+    <div class="logo">BUY&SHOP</div>
+    <input type="text" placeholder="Search Products" />
+   <form id="categoryForm" action="/category/products" method="get">
+  <select name="category" onchange="document.getElementById('categoryForm').submit()">
+    <option value="all">All Categories</option>
+    <% categories.forEach(function(cat) { %>
+      <option value="<%= cat._id %>"><%= cat.name %></option>
+    <% }) %>
+  </select>
+</form>
+
+
+    <div class="contact-info">
+      <i class="fas fa-headphones"></i> +011 5827918
+    </div>
+    <div class="icons">
+      <i class="fas fa-user"></i>
+      <i class="fas fa-heart"></i>
+      <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-text">
+      <h2>Experience the Future</h2>
+      <h1>Premium Mobile Accessories</h1>
+      <p>Discover our curated collection of stylish phone cases, powerful chargers, and immersive audio accessories built for tech lovers.</p>
+      <button>SHOP NOW</button>
+    </div>
+    <div class="hero-model">
+      <model-viewer src="/model/mobile1.glb" alt="3D Phone Model" auto-rotate camera-controls ar shadow-intensity="1.2" exposure="1.1"></model-viewer>
+    </div>
+  </section>
+
+  <!-- Promo Banners -->
+  <section class="promo-banners">
+    <!-- Banner Large with Carousel -->
+    <div id="bannerCarousel" class="carousel slide banner-large" data-bs-ride="carousel">
+
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="iamge1.jpg" class="d-block w-100" alt="Apple iPhones">
+          <div class="banner-text carousel-caption d-none d-md-block">
+            <h2>APPLE IPHONES</h2>
+            <p>Starting from <span>Rs. 94,999</span></p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="image2.jpg" class="d-block w-100" alt="New Banner 2">
+          <div class="banner-text carousel-caption d-none d-md-block">
+            <h2>NEW LAUNCH</h2>
+            <p>Special discounts on <span>Samsung Galaxy</span></p>
+          </div>
+        </div>
+        <!-- Add more carousel-items as needed -->
+      </div>
+      <!-- Optional Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  
+    <!-- Side Banners (Unchanged) -->
+    <div class="banner-side">
+      <img src="image2.jpg" alt="Smart Watches">
+      <img src="image3.jpg" alt="Easy Installments">
+      <img src="image4.jpg" alt="LED TVs">
+    </div>
+  </section>
+  
+
+  <!-- Hot Selling -->
+  <section class="hot-selling-section">
+    <div class="hot-selling-header">🔥 Hot Selling Products</div>
+    <div class="hot-container">
+      <div class="sale-banner">
+        <img src="weblogo.jpg" alt="Flat Sale">
+      </div>
+      <div class="slider-wrapper">
+        <button class="arrow-btn" onclick="scrollSlider(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="product-slider" id="productSlider">
+          <div class="product-card"><img src="image2.jpg"><h3>iPhone 14 Pro</h3><p>Rs. 274,999</p></div>
+          <div class="product-card"><img src="image3.jpg"><h3>Samsung S23 Ultra</h3><p>Rs. 249,999</p></div>
+          <div class="product-card"><img src="image4.jpg"><h3>Redmi Buds 5</h3><p>Rs. 6,499</p></div>
+          <div class="product-card"><img src="image5.jpg"><h3>Realme Powerbank</h3><p>Rs. 3,999</p></div>
+          <div class="product-card"><img src="iamge1.jpg"><h3>Samsung Smartwatch</h3><p>Rs. 19,999</p></div>
+          <div class="product-card"><img src="product6.jpg"><h3>LED Ring Light</h3><p>Rs. 2,499</p></div>
+          <div class="product-card"><img src="product7.jpg"><h3>Bluetooth Speaker</h3><p>Rs. 5,999</p></div>
+        </div>
+        <button class="arrow-btn" onclick="scrollSlider(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="contact-section">
+    <div class="contact-container">
+      <h2>Contact Us</h2>
+      <p>If you have any questions, suggestions, or need support, feel free to reach out to us. We’re here to help!</p>
+      <div class="contact-grid">
+        <div class="contact-info-box">
+          <i class="fas fa-map-marker-alt"></i>
+          <h4>Our Address</h4>
+          <p>123 Tech Avenue, Lahore, Pakistan</p>
+        </div>
+        <div class="contact-info-box">
+          <i class="fas fa-envelope"></i>
+          <h4>Email Us</h4>
+          <p>support@buyandshop.com</p>
+        </div>
+        <div class="contact-info-box">
+          <i class="fas fa-phone"></i>
+          <h4>Call Us</h4>
+          <p>+92 300 1234567</p>
+        </div>
+      </div>
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+
+ <!-- Footer Section -->
+<footer class="main-footer">
+    <div class="footer-columns">
+      <div class="footer-col">
+        <h4>About Us</h4>
+        <p>Buy&Shop is your one-stop marketplace for premium mobile accessories, phones, and gadgets — all under one roof.</p>
+      </div>
+  
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Track Order</a></li>
+          <li><a href="#">Shops</a></li>
+          <li><a href="#">Blog</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-col">
+        <h4>Customer Help</h4>
+        <ul>
+          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-col">
+        <h4>Connect With Us</h4>
+        <div class="footer-socials">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Buy&Shop. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+    function scrollSlider(direction) {
+      const slider = document.getElementById("productSlider");
+      const scrollAmount = 240; // based on product-card width + margin
+      slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+  <div id="preloader">
+  <div class="spinner"></div>
+</div>
+<script>
+  window.addEventListener('load', () => {
+    document.getElementById('preloader').style.display = 'none';
+  });
+</script>
+<style>
+#preloader {
+  background: #0f0f0f;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.spinner {
+  width: 60px; height: 60px;
+  border: 6px solid #ccc;
+  border-top: 6px solid var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+</style>
+
+</body>
+</html>

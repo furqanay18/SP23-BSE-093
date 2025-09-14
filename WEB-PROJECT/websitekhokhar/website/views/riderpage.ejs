@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rider Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      padding: 0;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px 40px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar h2 {
+      font-size: 1.5rem;
+      color: #00ffc8;
+      text-shadow: 0 0 8px #00ffc8;
+    }
+
+    .back-btn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      background: #00ffc8;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0, 255, 200, 0.6);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .back-btn:hover {
+      transform: scale(1.05);
+      background: #00e6b2;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.9);
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin: 40px 0 30px;
+      color: #00ffc8;
+      text-shadow: 0 0 10px #00ffc8;
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+    }
+
+    th, td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    th {
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 600;
+      color: #00ffc8;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transition: 0.3s ease;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      font-weight: 600;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(0,255,200,0.8);
+    }
+
+    .btn-accept {
+      background: #007bff;
+      color: white;
+    }
+
+    .btn-reject {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-update {
+      background: #28a745;
+      color: white;
+    }
+
+    .status {
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(255,255,255,0.4);
+    }
+
+    p {
+      text-align: center;
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar with Back Button -->
+  <div class="navbar">
+    <h2>🚚 Rider Panel</h2>
+    <a href="/riderDashboard" style="text-decoration:none;">
+      <button class="back-btn">← Back to Home</button>
+    </a>
+  </div>
+
+  <h1>Welcome <%= rider.name %> 🚴‍♂️</h1>
+
+  <% if (orders.length === 0) { %>
+    <p>No orders assigned to you.</p>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer - Phone</th>
+          <th>Address</th>
+          <th>Shop Name</th>
+          <th>Shop Address</th>
+          <th>Delivery Status</th>
+          <th>Rider Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% orders.forEach(order => { %>
+          <tr>
+            <td><%= order._id %></td>
+            <td><%= order.customer.name %> - (<%= order.customer.phone %>)</td>
+            <td><%= order.customer.address %></td>
+            <td><%= order.shopId?.name %></td>
+            <td><%= order.shopId?.address %></td>
+            <td class="status"><%= order.deliveryStatus %></td>
+            <td class="status"><%= order.riderStatus || 'Not Responded' %></td>
+            <td>
+              <% if (order.riderStatus === 'not_assigned') { %>
+                <form action="/rider/order/<%= order._id %>/accept" method="POST" style="display:inline;">
+                  <button class="btn btn-accept" type="submit">Accept</button>
+                </form>
+                <form action="/rider/order/<%= order._id %>/reject" method="POST" style="display:inline;" onsubmit="return confirmReject(event, '<%= order._id %>')">
+                  <input type="hidden" name="reason" id="reason-<%= order._id %>">
+                  <button class="btn btn-reject" type="submit">Reject</button>
+                </form>
+              <% } else if (order.riderStatus === 'accepted' && order.deliveryStatus !== 'delivered') { %>
+                <form action="/update-status/<%= order._id %>" method="POST">
+                  <button class="btn btn-update" type="submit">
+                    Mark as <%= order.deliveryStatus === 'assigned' ? 'Picked' : 'Delivered' %>
+                  </button>
+                </form>
+              <% } else if (order.deliveryStatus === 'delivered') { %>
+                <span class="status">Delivered ✅</span>
+              <% } else if (order.riderStatus === 'rejected') { %>
+                <span class="status">Rejected ❌</span>
+              <% } else { %>
+                <span class="status">No Action Available</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+
+  <script>
+    function confirmReject(event, orderId) {
+      event.preventDefault();
+      const reason = prompt("Please enter a reason for rejecting the order:");
+      if (reason === null || reason.trim() === "") {
+        alert("Rejection reason is required.");
+        return false;
+      }
+      document.getElementById('reason-' + orderId).value = reason;
+      event.target.submit();
+    }
+  </script>
+</body>
+</html>

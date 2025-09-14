@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register Your Shop</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      
+  font-family: 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #000000, #0d1b2a, #1e3c72, #2a5298);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+
+    .container {
+      
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      color: #ffffff;
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      width: 100%;
+      max-width: 600px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      text-align: center;
+      color: #00ffc6;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 1.2rem;
+      font-weight: 600;
+      color: #e0f7fa;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.07);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+    }
+
+    input::file-selector-button {
+      background: #00ffc6;
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      margin-right: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #00ffc6;
+      box-shadow: 0 0 0 2px rgba(0, 255, 198, 0.3);
+    }
+
+    .qr {
+      display: block;
+      margin: 20px auto 10px;
+      width: 150px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    p.payment-info {
+      text-align: center;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      color: #cccccc;
+    }
+
+    button {
+      background: linear-gradient(to right, #00ffc6, #04c0c4);
+      color: #000;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 10px rgba(0, 255, 198, 0.4);
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .back-home a {
+      color: #00ffc6;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .back-home a:hover {
+      color: #66fff0;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.5rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2><i class="fas fa-store"></i> Register Your Shop</h2>
+    <form action="/register" method="POST" enctype="multipart/form-data">
+      <label for="name">Shop Name</label>
+      <input type="text" name="name" id="name" required>
+
+      <label for="address">Address</label>
+      <input type="text" name="address" id="address" required>
+
+      <label for="city">City</label>
+      <input type="text" name="city" id="city" required>
+
+      <label for="email">Email</label>
+      <input type="email" name="email" id="email" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" name="phone" id="phone" required>
+
+      <label for="password">Password</label>
+      <input type="password" name="password" id="password" required>
+
+      <label for="logo">Shop Logo</label>
+      <input type="file" name="logo" id="logo" required>
+
+      <label for="pictures">Shop Pictures</label>
+      <input type="file" name="pictures" id="pictures" multiple>
+
+      <label for="banners">Shop Banners</label>
+      <input type="file" name="banners" id="banners" multiple>
+
+      <p class="payment-info">
+        Scan & Pay <strong>₨1000</strong> to <strong>0340-4215668</strong> via Easypaisa / JazzCash
+      </p>
+      <img src="/zain.jpg" class="qr" alt="QR Code for Payment">
+
+      <label for="transaction_id">Transaction ID</label>
+      <input type="text" name="transaction_id" id="transaction_id" required>
+
+      <label for="payment_screenshot">Upload Payment Screenshot</label>
+      <input type="file" name="payment_screenshot" id="payment_screenshot" accept="image/*" required>
+
+      <button type="submit"><i class="fas fa-paper-plane"></i> Submit Registration</button>
+    </form>
+
+    <div class="back-home">
+      <a href="/"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
+    </div>
+  </div>
+</body>
+</html>

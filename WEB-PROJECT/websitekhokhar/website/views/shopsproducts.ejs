@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products from Shop</title>
+
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    rel="stylesheet"
+  />
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: linear-gradient(to bottom right, #0f2027, #203a43, #2c5364);
+    color: #e0e0e0;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 40px auto;
+    padding: 0 20px 60px;
+  }
+
+  h2.text-center {
+    font-size: 2.5rem;
+    color: #00bcd4;
+    text-align: center;
+    margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .alert-info {
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 24px;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    text-align: center;
+    color: #aaa;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .card {
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 18px rgba(0, 188, 212, 0.5);
+  }
+
+  .card-img-wrapper {
+    background-color: #000;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card-img-top {
+    max-height: 180px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .card-body {
+    background-color: #000;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #00bcd4;
+  }
+
+  .card-text {
+    font-size: 1rem;
+    color: #bbb;
+    line-height: 1.4;
+  }
+
+  .card-price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #f39c12;
+    margin-top: 0;
+  }
+
+  .card-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+
+  .btn-primary {
+    background: linear-gradient(to right, #0077ff, #00c6ff);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+    width: 100%;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(to right, #0052cc, #00b3e6);
+    box-shadow: 0 0 15px rgba(0, 195, 255, 0.7);
+  }
+
+  .btn-primary i {
+    margin-right: 6px;
+  }
+
+  .btn-success {
+    background: linear-gradient(to right, #28a745, #43d67f);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.4);
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(to right, #218838, #3ddc84);
+    box-shadow: 0 0 15px rgba(72, 239, 128, 0.6);
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+    font-weight: bold;
+  }
+
+  .btn-danger:hover {
+    background: #f87171;
+  }
+
+  .navbar {
+    background: #1a1a1f;
+    padding: 16px 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-brand {
+    color: #00bcd4;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .navbar-nav {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-link {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #ff9800;
+  }
+</style>
+
+
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <i class="fas fa-store"></i> Buy & Shop
+    </a>
+    <div class="navbar-nav">
+      <a href="/shoppage" class="nav-link">Home</a>
+      <a href="/products" class="nav-link">Products</a>
+      <a href="/about" class="nav-link">About Us</a>
+      <a href="/contact" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">
+      <i class="fas fa-store"></i> Products from <%= shop.name %>
+    </h2>
+
+    <% if (products.length === 0) { %>
+      <div class="alert alert-info text-center">
+        <i class="fas fa-info-circle"></i> No products listed for this shop.
+      </div>
+    <% } else { %>
+      <div class="product-grid">
+  <% products.forEach(product => { %>
+    <div class="card">
+      <div class="card-img-wrapper">
+        <% if (product.picture) { %>
+          <img
+            src="/<%= product.picture %>"
+            class="card-img-top"
+            alt="<%= product.title %>"
+            loading="lazy"
+          />
+        <% } else { %>
+          <img
+            src="https://via.placeholder.com/400x200?text=No+Image"
+            class="card-img-top"
+            alt="No Image"
+            loading="lazy"
+          />
+        <% } %>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><%= product.title %></h5>
+        <p class="card-text"><%= product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description %></p>
+        <p class="card-price">PKR <%= product.price %></p>
+        
+        <!-- Add to Cart button inside the card body -->
+        <% if (product.stock >= 1) { %>
+                                <button class="btn btn-success" disabled>
+    <i class="fas fa-check-circle"></i> Available
+  </button>
+                                <div>
+    <a href="/add-to-cart/<%= product._id %>" class="btn btn-primary">
+      <i class="fas fa-cart-plus"></i> Add To Cart
+    </a>
+  </div>
+                            <% } else { %>
+                                <button class="btn btn-danger" disabled>
+    <i class="fas fa-times-circle"></i> Not Available
+  </button>
+                            <% } %>
+      </div>
+    </div>
+  <% }); %>
+</div>
+
+    <% } %>
+  </div>
+</body>
+</html>

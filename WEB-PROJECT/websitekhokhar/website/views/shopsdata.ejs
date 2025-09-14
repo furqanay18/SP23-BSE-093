@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - Shop Owners</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    integrity="sha512-papD2HxSY9T1J/vPhXq94UZLj8gKiP0qOELRqcDc5z6G1Mj8xU+4DQ0z0bLPM1tJef+VqH87uX8WZCDmTTJcBA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    /* Body & Container */
+    body {
+      background: url('/ap.avif') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #e0e6f2;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: rgba(15, 23, 42, 0.95);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #fbbf24;
+      text-shadow: 0 0 6px #fbbf24cc;
+      user-select: none;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #e0e6f2;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #fbbf24;
+      color: #1e293b;
+      text-shadow: none;
+    }
+
+    nav ul li a i {
+      font-size: 1.1rem;
+    }
+
+    /* Container */
+    .admin-panel-container {
+      max-width: 1200px;
+      margin: 3rem auto 5rem auto;
+      padding: 2rem;
+      background: rgba(15, 23, 42, 0.85); /* dark translucent */
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+      color: #e0e6f2;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Heading */
+    .admin-panel-container h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      color: #fbbf24; /* golden accent */
+      text-shadow: 0 0 6px #fbbf24cc;
+    }
+
+    /* Table Styles */
+    .styled-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      box-shadow: 0 0 30px rgba(251, 191, 36, 0.15);
+      overflow: hidden;
+      border-radius: 12px;
+      background-color: #1e293b;
+    }
+
+    .styled-table thead tr {
+      background-color: #334155;
+      color: #fbbf24;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      font-size: 0.9rem;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      vertical-align: middle;
+      font-size: 0.95rem;
+      border-bottom: 1px solid transparent;
+      transition: background-color 0.3s ease;
+      max-width: 160px;
+      word-wrap: break-word;
+    }
+
+    /* Row hover effect */
+    .styled-table tbody tr:hover {
+      background-color: #475569;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    /* Payment Status */
+    .payment-status.paid {
+      color: #22c55e; /* green */
+      font-weight: 700;
+    }
+
+    .payment-status.unpaid {
+      color: #ef4444; /* red */
+      font-weight: 700;
+    }
+
+    /* Status badges */
+    .status {
+      padding: 0.25rem 0.7rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-align: center;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .status.pending {
+      background-color: #facc15cc; /* amber transparent */
+      color: #78350f;
+    }
+
+    .status.approved {
+      background-color: #22c55e99; /* green transparent */
+      color: #064e3b;
+    }
+
+    .status.rejected {
+      background-color: #ef444499; /* red transparent */
+      color: #7f1d1d;
+    }
+
+    /* Images styling */
+    .shop-images img {
+      height: 50px;
+      width: auto;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+      margin: 0 4px 4px 0;
+      object-fit: contain;
+      vertical-align: middle;
+    }
+
+    /* Buttons */
+    .btn-approve,
+    .btn-reject {
+      background-color: transparent;
+      border: 2px solid transparent;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background-color 0.25s ease, color 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #e0e6f2;
+    }
+
+    .btn-approve {
+      border-color: #22c55e;
+      color: #22c55e;
+    }
+
+    .btn-approve:hover {
+      background-color: #22c55e;
+      color: #1e293b;
+    }
+
+    .btn-reject {
+      border-color: #ef4444;
+      color: #ef4444;
+    }
+
+    .btn-reject:hover {
+      background-color: #ef4444;
+      color: #1e293b;
+    }
+
+    /* Icons */
+    .btn-approve i,
+    .btn-reject i {
+      font-size: 1rem;
+    }
+
+    /* Scrollbar for table body */
+    tbody {
+      display: block;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    thead,
+    tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">AdminPanel</div>
+    <ul>
+      <li><a href="/admin/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+    
+    </ul>
+  </nav>
+
+  <div class="admin-panel-container">
+    <h1>Shop Owners Management</h1>
+
+    <table id="shopsTable" class="styled-table">
+      <thead>
+        <tr>
+          
+          <th>Shop Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Transaction ID</th>
+          <th>Logo</th>
+          <th>Pictures</th>
+          <th>Banners</th>
+          <th>Payment Screenshot</th> <!-- Added -->
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let index = 0; index < newshop.length; index++) { %>
+        <tr>
+          
+          <td><%= newshop[index].name %></td>
+          <td><%= newshop[index].email %></td>
+          <td><%= newshop[index].phone %></td>
+          <td><%= newshop[index].transaction_id %></td>
+          <td class="shop-images">
+            <img src="/<%= newshop[index].logo %>" alt="Logo" />
+          </td>
+          <td class="shop-images">
+            <% newshop[index].pictures.forEach(pic => { %>
+              <img src="/<%= pic %>" alt="Picture" />
+            <% }) %>
+          </td>
+          <td class="shop-images">
+            <% newshop[index].banners.forEach(ban => { %>
+              <img src="/<%= ban %>" alt="Banner" />
+            <% }) %>
+          </td>
+          <td class="shop-images">
+            <% if (newshop[index].payment_screenshot) { %>
+              <img src="/<%= newshop[index].payment_screenshot %>" alt="Screenshot" />
+            <% } else { %>
+              <em>No screenshot</em>
+            <% } %>
+          </td>
+          <td>
+            <span class="status <%= newshop[index].status %>">
+              <%= newshop[index].status.charAt(0).toUpperCase() + newshop[index].status.slice(1) %>
+            </span>
+          </td>
+          <td>
+            <% if (newshop[index].status === 'pending') { %>
+              <form method="POST" action="/admin/approve-shop/<%= newshop[index]._id %>" style="display:inline;">
+                <button class="btn-approve" title="Approve">
+                  <i class="fas fa-check"></i> Approve
+                </button>
+              </form>
+              <form method="POST" action="/admin/reject-shop/<%= newshop[index]._id %>" style="display:inline;">
+                <button class="btn-reject" title="Reject">
+                  <i class="fas fa-times"></i> Reject
+                </button>
+              </form>
+            <% } else { %>
+              <em style="color:#94a3b8;">No actions</em>
+            <% } %>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

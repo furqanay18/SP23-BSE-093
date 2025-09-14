@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shopping Cart - Buy & Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+ <style>
+  :root {
+    --primary: #ff3c3c;
+    --secondary: #1f1f1f;
+    --accent: #00c853;
+    --text: #ffffff;
+    --muted: #aaaaaa;
+    --gradient: linear-gradient(135deg, #ff3c3c, #ff7f50);
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f0f0f;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  nav {
+    background-color: #161616;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid var(--primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 12px rgba(255, 60, 60, 0.2);
+  }
+
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: 1px;
+    transition: transform 0.3s ease;
+  }
+
+  .logo:hover {
+    transform: scale(1.05);
+  }
+
+  nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+  }
+
+  nav ul li a {
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  nav ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+  }
+
+  nav ul li a:hover::after {
+    width: 100%;
+  }
+
+  .container {
+    max-width: 1300px;
+    margin: 40px auto;
+    padding: 0 20px;
+    animation: fadeInUp 0.7s ease forwards;
+  }
+
+  h1 {
+    text-align: center;
+    color: var(--primary);
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-shadow: 0 1px 4px rgba(255, 60, 60, 0.3);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 30px rgba(255, 60, 60, 0.15);
+    animation: fadeIn 1s ease;
+  }
+
+  thead {
+    background-color: var(--primary);
+  }
+
+  thead th {
+    padding: 16px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  tbody tr {
+    background-color: var(--secondary);
+    border-bottom: 1px solid #2a2a2a;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+
+  tbody tr:hover {
+    background-color: #2d2d2d;
+    transform: scale(1.01);
+  }
+
+  tbody td {
+    padding: 16px;
+    text-align: center;
+    font-size: 15px;
+    color: var(--text);
+  }
+
+  tbody td img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s;
+  }
+
+  tbody td img:hover {
+    transform: scale(1.1);
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .btn-update {
+    background: linear-gradient(135deg, #3c9cff, #0091ff);
+    color: white;
+  }
+
+  .btn-update:hover {
+    background: linear-gradient(135deg, #1c7fe4, #0066cc);
+    transform: scale(1.05);
+  }
+
+  .btn-remove {
+    background: var(--primary);
+    color: white;
+  }
+
+  .btn-remove:hover {
+    background: #cc2f2f;
+    transform: scale(1.05);
+  }
+
+  .btn-checkout {
+    background: var(--gradient);
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 14px 30px;
+    border-radius: 10px;
+    margin-top: 30px;
+    float: right;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 60, 60, 0.3);
+    transition: all 0.3s ease;
+  }
+
+  .btn-checkout:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(255, 127, 80, 0.5);
+  }
+
+  .total {
+    margin-top: 30px;
+    text-align: right;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text);
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.1);
+  }
+
+  .empty-cart {
+    text-align: center;
+    padding: 80px 20px;
+    font-size: 24px;
+    color: var(--muted);
+    font-weight: 500;
+    animation: fadeIn 1s ease;
+  }
+/*
+  @media (max-width: 768px) {
+    thead {
+      display: none;
+    }
+
+    tbody tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    tbody td {
+      text-align: left;
+      padding: 12px 20px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .btn-checkout {
+      float: none;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 30px;
+    }
+  }
+*/
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+</head>
+<body>
+
+  <nav>
+    <div class="logo">🛒 Buy & Shop</div>
+    <ul>
+      <li><a href="/homepage">Home</a></li>
+      <li><a href="/products">Products</a></li>
+      <li><a href="/totalshops">Shops</a></li>
+      <li><a href="/cart">Cart</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Your Shopping Cart</h1>
+
+    <% if (products.length === 0) { %>
+      <div class="empty-cart">Your cart is currently empty.</div>
+    <% } else { %>
+      <table>
+        <thead>
+          <tr>
+            <th>Picture</th>
+            <th>Title</th>
+            <th>Shop</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Update</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(product => { %>
+            <tr>
+              <td><img src="<%= product.picture %>" alt="Product"></td>
+              <td><%= product.title %></td>
+              <td><%= product.shopId.name %></td>
+              <td><%= product.category.name %></td>
+              <td>$<%= product.price %></td>
+              <td><%= product.quantity %></td>
+              <td>$<%= (product.price * product.quantity).toFixed(2) %></td>
+              <td>
+                <form action="/update-cart/<%= product._id %>" method="POST">
+                  <button class="btn btn-update" type="submit" name="action" value="increment">+</button>
+                  <button class="btn btn-update" type="submit" name="action" value="decrement">-</button>
+                </form>
+              </td>
+              <td>
+                <form action="/remove-from-cart/<%= product._id %>" method="GET">
+                  <button class="btn btn-remove" type="submit">Remove</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <div class="total">Total: $<%= total %></div>
+
+      <form action="/checkout" method="GET">
+        <button class="btn-checkout" type="submit">Proceed to Checkout</button>
+      </form>
+    <% } %>
+  </div>
+
+</body>
+</html>

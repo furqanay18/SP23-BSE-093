@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OSMMapScreen extends StatefulWidget {
   final double latitude;
@@ -70,6 +71,20 @@ class _OSMMapScreenState extends State<OSMMapScreen>
     setState(() {
       _isFollowingLocation = true;
     });
+  }
+  Future<void> _launchCoordinates(double lat, double lng) async {
+    final Uri url = Uri.parse("https://www.google.com/maps/search/?api=1&query=$lat,$lng");
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication, // Ensures it opens in Maps app or browser
+      );
+    } else {
+      // Optional: Show error if URL couldn't be launched
+      debugPrint('Could not launch map URL: $url');
+      // You can show a snackbar or alert here if needed
+    }
   }
 
   void _onMapPositionChanged(MapPosition position, bool hasGesture) {
@@ -378,10 +393,10 @@ class _OSMMapScreenState extends State<OSMMapScreen>
                       width: double.infinity,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          // Navigate or share location
+                          _launchCoordinates(widget.latitude, widget.longitude);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                              content: Text('Opening in Maps app...'),
+                              content: Text('Opening in Google Maps...'),
                               duration: Duration(seconds: 2),
                             ),
                           );
